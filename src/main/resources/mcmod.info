@@ -1,0 +1,16 @@
+[
+{
+  "modid": "antighost",
+  "name": "AntiGhost",
+  "description": "Some Mod",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Giselbaer"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
