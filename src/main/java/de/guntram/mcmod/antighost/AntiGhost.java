@@ -3,20 +3,27 @@ package de.guntram.mcmod.antighost;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.command.CommandException;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
+import org.lwjgl.input.Keyboard;
 
 @Mod(modid = AntiGhost.MODID, 
         version = AntiGhost.VERSION,
@@ -28,12 +35,15 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class AntiGhost implements ICommand
 {
     static final String MODID="antighost";
-    static final String VERSION="1.0";
+    static final String VERSION="1.1";
+    static KeyBinding showGui;
+    
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
         MinecraftForge.EVENT_BUS.register(this);
         ClientCommandHandler.instance.registerCommand(this);
+        ClientRegistry.registerKeyBinding(showGui = new KeyBinding("key.reveal", Keyboard.KEY_G, "key.categories.antighost"));
     }
 
     @EventHandler
@@ -43,6 +53,15 @@ public class AntiGhost implements ICommand
         MinecraftForge.EVENT_BUS.register(confHandler);
     }
 
+    @SubscribeEvent
+    public void keyPressed(final InputEvent.KeyInputEvent e) {
+        EntityPlayerSP player = Minecraft.getMinecraft().player;
+        if (showGui.isPressed()) {
+            this.execute(null, player, null);
+            player.sendMessage(new TextComponentString(I18n.format("msg.request", (Object[]) null)));
+        }
+    }
+    
     @Override
     public String getName() {
         return "ghost";
@@ -59,7 +78,7 @@ public class AntiGhost implements ICommand
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
         Minecraft mc=Minecraft.getMinecraft();
         NetHandlerPlayClient conn = mc.getConnection();
         if (conn==null)
