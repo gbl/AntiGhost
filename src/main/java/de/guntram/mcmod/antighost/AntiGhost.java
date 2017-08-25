@@ -2,6 +2,7 @@ package de.guntram.mcmod.antighost;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -29,7 +30,7 @@ import org.lwjgl.input.Keyboard;
         version = AntiGhost.VERSION,
 	clientSideOnly = true, 
 	guiFactory = "de.guntram.mcmod.antighost.GuiFactory",
-	acceptedMinecraftVersions = "[1.11.2]"
+	acceptedMinecraftVersions = "[1.10.2]"
 )
 
 public class AntiGhost implements ICommand
@@ -55,26 +56,26 @@ public class AntiGhost implements ICommand
 
     @SubscribeEvent
     public void keyPressed(final InputEvent.KeyInputEvent e) {
-        EntityPlayerSP player = Minecraft.getMinecraft().player;
+        EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
         if (showGui.isPressed()) {
             this.execute(null, player, null);
-            player.sendMessage(new TextComponentString(I18n.format("msg.request", (Object[]) null)));
+            player.addChatMessage(new TextComponentString(I18n.format("msg.request", (Object[]) null)));
         }
     }
     
     @Override
-    public String getName() {
+    public String getCommandName() {
         return "ghost";
     }
 
     @Override
-    public String getUsage(ICommandSender sender) {
+    public String getCommandUsage(ICommandSender sender) {
         return "/ghost";
     }
 
     @Override
-    public List<String> getAliases() {
-        return new ArrayList<>();
+    public List<String> getCommandAliases() {
+        return new ArrayList<String>();
     }
 
     @Override
@@ -102,8 +103,8 @@ public class AntiGhost implements ICommand
     }
 
     @Override
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos targetPos) {
-        return new ArrayList<>();
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
+        return new ArrayList<String>();
     }
 
     @Override
@@ -113,6 +114,6 @@ public class AntiGhost implements ICommand
 
     @Override
     public int compareTo(ICommand o) {
-        return getName().compareTo(o.getName());
+        return getCommandName().compareTo(o.getCommandName());
     }
 }
