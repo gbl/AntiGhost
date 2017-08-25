@@ -29,7 +29,7 @@ import org.lwjgl.input.Keyboard;
         version = AntiGhost.VERSION,
 	clientSideOnly = true, 
 	guiFactory = "de.guntram.mcmod.antighost.GuiFactory",
-	acceptedMinecraftVersions = "[1.12]"
+	acceptedMinecraftVersions = "[1.11.2]"
 )
 
 public class AntiGhost implements ICommand
