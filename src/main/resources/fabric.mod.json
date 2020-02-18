@@ -1,0 +1,31 @@
+{
+    "schemaVersion": 1,
+    "id": "antighost",
+    "version": "1.15-fabric0.4.23-1.1.1",
+    "environment": "client",
+    "entrypoints": {
+        "client": [ "de.guntram.mcmod.antighost.AntiGhost" ],
+        "cotton-client-commands": ["de.guntram.mcmod.antighost.AntiGhost"]
+    },
+    "custom": {
+        "modmenu:clientsideOnly": true
+    },
+    "mixins": [
+      	"mixins.antighost.json"
+    ],
+    "depends": {
+      "fabric": "*"
+    },
+    "recommends": {
+      "modmenu" : "*"
+    },
+    "name": "AntiGhost",
+    "description": "Mod that helps you get rid of ghost blocks around yourself",
+    "icon": "pack.png",
+    "authors": [ "Giselbaer" ],
+    "contact": {
+        "homepage": "https://minecraft.curseforge.com/projects/antighost",
+        "sources": "https://github.com/gbl/AntiGhost",
+        "issues": "https://github.com/gbl/AntiGhost/issues"
+    }
+}
