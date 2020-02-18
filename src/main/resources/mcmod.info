@@ -2,14 +2,14 @@
 {
   "modid": "antighost",
   "name": "AntiGhost",
-  "description": "Some Mod",
+  "description": "Mod that helps you get rid of ghost blocks around yourself",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
   "authorList": ["Giselbaer"],
   "credits": "",
-  "logoFile": "",
+  "logoFile": "Antighost.png",
   "screenshots": [],
   "dependencies": []
 }

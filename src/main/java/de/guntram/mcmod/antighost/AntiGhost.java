@@ -35,7 +35,7 @@ import org.lwjgl.input.Keyboard;
 public class AntiGhost implements ICommand
 {
     static final String MODID="antighost";
-    static final String VERSION="1.1";
+    static final String VERSION="1.1.1";
     static KeyBinding showGui;
     
     @EventHandler
