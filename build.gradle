@@ -4,7 +4,7 @@ plugins {
 
 repositories {
 	maven {
-		url = "https://maven.fabricmc.net/io/github/prospector/modmenu/ModMenu/"
+		url = "https://maven.fabricmc.net"
 	}
 	maven {
 		url = "https://minecraft.guntram.de/maven/"
@@ -18,21 +18,38 @@ repositories {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+ext.Versions = new Properties()
+Versions.load(file("../mcversion-20w10a.properties").newReader())
+
 archivesBaseName = "antighost"
-version = "1.15-fabric0.4.23-1.1.1"
+ext.projectVersion = "1.1.1"
+
+version = "${Versions['minecraft_version']}-fabric${Versions['fabric_versiononly']}-${project.projectVersion}"
 
 minecraft {
     refmapName = "AntiGhost-refmap.json";
 }
 
+processResources {
+	inputs.property "version", project.version
+
+    from(sourceSets.main.resources.srcDirs) {
+		include "fabric.mod.json"
+		expand "version": project.version
+	}
+	from(sourceSets.main.resources.srcDirs) {
+		exclude "fabric.mod.json"
+	}
+}
+
 dependencies {
-    minecraft  "com.mojang:minecraft:1.15"
-    mappings   "net.fabricmc:yarn:1.15-pre6+build.1:v2"
-    modCompile "net.fabricmc:fabric-loader:0.7.2+build.174"
-    modCompile "net.fabricmc.fabric-api:fabric-api:0.4.23+build.276-1.15"
-    modCompile "io.github.prospector.modmenu:ModMenu:1.6.3-95"
-    modCompile "io.github.cottonmc:cotton-client-commands:0.4.2+1.14.3-SNAPSHOT"
-    include    "io.github.cottonmc:cotton-client-commands:0.4.2+1.14.3-SNAPSHOT"
+    minecraft  "com.mojang:minecraft:${Versions['minecraft_version']}"
+    mappings   "net.fabricmc:yarn:${Versions['yarn_mappings']}:v2"
+    modCompile "net.fabricmc:fabric-loader:${Versions['loader_version']}"
+    modCompile "net.fabricmc.fabric-api:fabric-api:${Versions['fabric_version']}"
+    modCompile "io.github.prospector:modmenu:${Versions['modmenu_version']}"
+    modCompile "io.github.cottonmc:cotton-client-commands:${Versions['ccc_version']}"
+    include    "io.github.cottonmc:cotton-client-commands:${Versions['ccc_version']}"
 }
 
 // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task

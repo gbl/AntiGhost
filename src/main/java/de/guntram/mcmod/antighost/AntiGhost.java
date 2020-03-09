@@ -12,7 +12,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.server.network.packet.PlayerActionC2SPacket;
+import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -23,16 +23,15 @@ public class AntiGhost implements ClientModInitializer, ClientCommandPlugin
 {
     static final String MODID="antighost";
     static final String VERSION="1.1";
-    static FabricKeyBinding showGui;
+    static FabricKeyBinding requestBlocks;
     
     @Override
     public void onInitializeClient()
     {
         final String category="key.categories.antighost";
         KeyBindingRegistry.INSTANCE.addCategory(category);
-        KeyBindingRegistry.INSTANCE.register(
-            showGui = FabricKeyBinding.Builder
-                .create(new Identifier("key.reveal"), InputUtil.Type.KEYSYM,
+        KeyBindingRegistry.INSTANCE.register(requestBlocks = FabricKeyBinding.Builder
+                .create(new Identifier("antighost:reveal"), InputUtil.Type.KEYSYM,
                         GLFW_KEY_G, category)
                 .build());
         ClientTickCallback.EVENT.register(e->keyPressed());
@@ -51,7 +50,7 @@ public class AntiGhost implements ClientModInitializer, ClientCommandPlugin
 
     public void keyPressed() {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
-        if (showGui.isPressed()) {
+        if (requestBlocks.wasPressed()) {
             this.execute();
             player.sendMessage(new TranslatableText("msg.request"));
         }
@@ -62,7 +61,7 @@ public class AntiGhost implements ClientModInitializer, ClientCommandPlugin
         ClientPlayNetworkHandler conn = mc.getNetworkHandler();
         if (conn==null)
             return;
-        BlockPos pos=mc.player.getBlockPos();
+        BlockPos pos=mc.player.getSenseCenterPos();
         for (int dx=-4; dx<=4; dx++)
             for (int dy=-4; dy<=4; dy++)
                 for (int dz=-4; dz<=4; dz++) {
