@@ -10,11 +10,10 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.network.play.client.CPacketPlayerDigging;
-import net.minecraft.server.MinecraftServer;
+import net.minecraft.network.play.client.C07PacketPlayerDigging;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -30,7 +29,7 @@ import org.lwjgl.input.Keyboard;
         version = AntiGhost.VERSION,
 	clientSideOnly = true, 
 	guiFactory = "de.guntram.mcmod.antighost.GuiFactory",
-	acceptedMinecraftVersions = "[1.10.2]"
+	acceptedMinecraftVersions = "[1.8.9]"
 )
 
 public class AntiGhost implements ICommand
@@ -58,8 +57,8 @@ public class AntiGhost implements ICommand
     public void keyPressed(final InputEvent.KeyInputEvent e) {
         EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
         if (showGui.isPressed()) {
-            this.execute(null, player, null);
-            player.addChatMessage(new TextComponentString(I18n.format("msg.request", (Object[]) null)));
+            this.processCommand(player, null);
+            player.addChatMessage(new ChatComponentText(I18n.format("msg.request", (Object[]) null)));
         }
     }
     
@@ -79,31 +78,30 @@ public class AntiGhost implements ICommand
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
+    public void processCommand(ICommandSender sender, String[] args) {
         Minecraft mc=Minecraft.getMinecraft();
-        NetHandlerPlayClient conn = mc.getConnection();
+        NetHandlerPlayClient conn = mc.getNetHandler();
         if (conn==null)
             return;
         BlockPos pos=sender.getPosition();
         for (int dx=-4; dx<=4; dx++)
             for (int dy=-4; dy<=4; dy++)
                 for (int dz=-4; dz<=4; dz++) {
-                    CPacketPlayerDigging packet=new CPacketPlayerDigging(
-                            CPacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, 
+                    C07PacketPlayerDigging packet=new C07PacketPlayerDigging(
+                            C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, 
                             new BlockPos(pos.getX()+dx, pos.getY()+dy, pos.getZ()+dz),
                             EnumFacing.UP       // with ABORT_DESTROY_BLOCK, this value is unused
                     );
-                    conn.sendPacket(packet);
+                    conn.addToSendQueue(packet);
                 }
     }
 
-    @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
+    public boolean canCommandSenderUseCommand(ICommandSender sender) {
         return true;
     }
 
     @Override
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
+    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
         return new ArrayList<String>();
     }
 

@@ -1,9 +1,9 @@
 package de.guntram.mcmod.antighost;
 
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import java.io.File;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ConfigurationHandler {
 
@@ -29,7 +29,7 @@ public class ConfigurationHandler {
     @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
         // System.out.println("OnConfigChanged for "+event.getModID());
-        if (event.getModID().equalsIgnoreCase(AntiGhost.MODID)) {
+        if (event.modID.equalsIgnoreCase(AntiGhost.MODID)) {
             loadConfig();
         }
     }
