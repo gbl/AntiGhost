@@ -52,7 +52,7 @@ public class AntiGhost implements ClientModInitializer, ClientCommandPlugin
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         if (requestBlocks.wasPressed()) {
             this.execute();
-            player.sendMessage(new TranslatableText("msg.request"));
+            player.sendMessage(new TranslatableText("msg.request"), false);
         }
     }
     
@@ -61,7 +61,7 @@ public class AntiGhost implements ClientModInitializer, ClientCommandPlugin
         ClientPlayNetworkHandler conn = mc.getNetworkHandler();
         if (conn==null)
             return;
-        BlockPos pos=mc.player.getSenseCenterPos();
+        BlockPos pos=mc.player.getBlockPos();
         for (int dx=-4; dx<=4; dx++)
             for (int dy=-4; dy<=4; dy++)
                 for (int dz=-4; dz<=4; dz++) {

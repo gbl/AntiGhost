@@ -10,7 +10,7 @@
     "custom": {
         "modmenu:clientsideOnly": true
     },
-    "mixins": [
+    "NOmixins": [
       	"mixins.antighost.json"
     ],
     "depends": {
