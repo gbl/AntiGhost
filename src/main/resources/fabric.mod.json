@@ -21,7 +21,7 @@
     },
     "name": "AntiGhost",
     "description": "Mod that helps you get rid of ghost blocks around yourself. Use /ghost or type the g key (can be rebound) to request block-resends.",
-    "icon": "pack.png",
+    "icon": "icon.png",
     "authors": [ "Giselbaer" ],
     "contact": {
         "homepage": "https://www.curseforge.com/minecraft/mc-mods/antighost",
