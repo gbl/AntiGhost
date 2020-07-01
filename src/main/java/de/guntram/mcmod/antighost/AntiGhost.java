@@ -48,7 +48,7 @@ public class AntiGhost
         ClientPlayerEntity player = Minecraft.getInstance().player;
         if (showGui.isPressed()) {
             this.execute(null, player, null);
-            player.sendMessage(new TranslationTextComponent("msg.request"));
+            player.sendStatusMessage(new TranslationTextComponent("msg.request"), false);
         }
     }
     
@@ -86,7 +86,7 @@ public class AntiGhost
             return;
         }
         ClientPlayerEntity player = (ClientPlayerEntity) sender;
-        BlockPos pos=player.getPosition();
+        BlockPos pos=player.func_233580_cy_();
         for (int dx=-4; dx<=4; dx++)
             for (int dy=-4; dy<=4; dy++)
                 for (int dz=-4; dz<=4; dz++) {
