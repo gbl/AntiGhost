@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.2.7-SNAPSHOT'
+	id 'fabric-loom' version '0.4-SNAPSHOT'
 }
 
 repositories {
@@ -19,7 +19,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 ext.Versions = new Properties()
-Versions.load(file("Versionfiles/mcversion-1.16.properties").newReader())
+Versions.load(file("Versionfiles/mcversion-1.16.2-pre1.properties").newReader())
 
 archivesBaseName = "antighost"
 ext.projectVersion = "1.1.2"
@@ -47,7 +47,6 @@ dependencies {
     mappings   "net.fabricmc:yarn:${Versions['yarn_mappings']}:v2"
     modCompile "net.fabricmc:fabric-loader:${Versions['loader_version']}"
     modCompile "net.fabricmc.fabric-api:fabric-api:${Versions['fabric_version']}"
-    modCompile "io.github.prospector:modmenu:${Versions['modmenu_version']}"
     modCompile "io.github.cottonmc:cotton-client-commands:${Versions['ccc_version']}"
     include    "io.github.cottonmc:cotton-client-commands:${Versions['ccc_version']}"
 }

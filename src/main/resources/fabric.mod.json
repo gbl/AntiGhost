@@ -8,7 +8,6 @@
         "cotton-client-commands": ["de.guntram.mcmod.antighost.AntiGhost"]
     },
     "custom": {
-        "modmenu:clientsideOnly": true,
         "modupdater": {
             "strategy": "json",
             "url": "https://raw.githubusercontent.com/gbl/ModVersionInfo/master/AntiGhost.json"
