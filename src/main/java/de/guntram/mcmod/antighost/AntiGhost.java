@@ -23,6 +23,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
 
 @Mod(modid = AntiGhost.MODID, 
@@ -35,8 +36,10 @@ import org.lwjgl.input.Keyboard;
 public class AntiGhost implements ICommand
 {
     static final String MODID="antighost";
-    static final String VERSION="1.1.1";
+    static final String VERSION="1.1.1-auto";
     static KeyBinding showGui;
+    
+    int ticksToAutoRun;
     
     @EventHandler
     public void init(FMLInitializationEvent event)
@@ -59,6 +62,16 @@ public class AntiGhost implements ICommand
         if (showGui.isPressed()) {
             this.execute(null, player, null);
             player.sendMessage(new TextComponentString(I18n.format("msg.request", (Object[]) null)));
+        }
+    }
+    
+    @SubscribeEvent
+    public void onClientTick(TickEvent.ClientTickEvent event) {
+        if (event.phase == TickEvent.Phase.END) {
+            if (++ticksToAutoRun > 20 * 60 * 5) {
+                ticksToAutoRun = 0;
+                this.execute(null, Minecraft.getMinecraft().player, null);
+            }
         }
     }
     
