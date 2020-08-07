@@ -16,18 +16,13 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-
-
-
-@Mod("antighost") 
 
 public class AntiGhost 
 {
     static final String MODID="antighost";
-    static final String VERSION="1.1.1";
+    static final String MODNAME="AntiGhost";
     static KeyBinding showGui;
     
     public AntiGhost() {
@@ -60,23 +55,6 @@ public class AntiGhost
         }
     }
 
-/*
-    public String getName() {
-        return "ghost";
-    }
-
-    public String getUsage(ICommandSender sender) {
-        return "/ghost";
-    }
-
-    @Override
-    public List<String> getAliases() {
-        return new ArrayList<>();
-    }
-
-    @Override
-*/
-    
     public void execute(MinecraftServer server, ICommandSource sender, String[] args) {
         Minecraft mc=Minecraft.getInstance();
         ClientPlayNetHandler conn = mc.getConnection();
@@ -98,25 +76,4 @@ public class AntiGhost
                     conn.sendPacket(packet);
                 }
     }
-/*
-    @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-        return true;
-    }
-
-    @Override
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos targetPos) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public boolean isUsernameIndex(String[] args, int index) {
-        return false;
-    }
-
-    @Override
-    public int compareTo(ICommand o) {
-        return getName().compareTo(o.getName());
-    }
-*/
 }
