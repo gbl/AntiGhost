@@ -27,7 +27,7 @@ public class AntiGhost implements ClientModInitializer, ClientCommandPlugin
     public void onInitializeClient()
     {
         final String category="key.categories.antighost";
-        requestBlocks = new KeyBinding("antighost:reveal", GLFW_KEY_G, category);
+        requestBlocks = new KeyBinding("key.antighost.reveal", GLFW_KEY_G, category);
         KeyBindingHelper.registerKeyBinding(requestBlocks);
         ClientTickEvents.END_CLIENT_TICK.register(e->keyPressed());
     }
