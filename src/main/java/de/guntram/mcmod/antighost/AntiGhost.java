@@ -1,6 +1,7 @@
 package de.guntram.mcmod.antighost;
 
 import com.mojang.brigadier.CommandDispatcher;
+import de.guntram.mcmod.crowdintranslate.CrowdinTranslate;
 import static io.github.cottonmc.clientcommands.ArgumentBuilders.literal;
 import io.github.cottonmc.clientcommands.ClientCommandPlugin;
 import io.github.cottonmc.clientcommands.CottonClientCommandSource;
@@ -20,7 +21,6 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_G;
 public class AntiGhost implements ClientModInitializer, ClientCommandPlugin
 {
     static final String MODID="antighost";
-    static final String VERSION="1.1";
     static KeyBinding requestBlocks;
     
     @Override
@@ -28,6 +28,7 @@ public class AntiGhost implements ClientModInitializer, ClientCommandPlugin
     {
         final String category="key.categories.antighost";
         requestBlocks = new KeyBinding("key.antighost.reveal", GLFW_KEY_G, category);
+        CrowdinTranslate.downloadTranslations(MODID);
         KeyBindingHelper.registerKeyBinding(requestBlocks);
         ClientTickEvents.END_CLIENT_TICK.register(e->keyPressed());
     }
