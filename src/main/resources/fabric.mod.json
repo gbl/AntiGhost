@@ -13,9 +13,6 @@
             "url": "https://raw.githubusercontent.com/gbl/ModVersionInfo/master/AntiGhost.json"
         }
     },
-    "NOmixins": [
-      	"mixins.antighost.json"
-    ],
     "depends": {
       "fabric": "*"
     },
