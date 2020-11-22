@@ -1,5 +1,5 @@
 {
-    "key.categories.antighost": "AntiGhost",
-    "key.antighost.reveal": "Reveal ghost blocks",
-    "msg.request": "requesting resend of blocks around you"
+    "key.categories.antighost": "AntiHaamu",
+    "key.antighost.reveal": "Paljastetaan haamupalikat",
+    "msg.request": "pyydetään, että palikat ympärilläsi lähetetään uudelleen"
 }
