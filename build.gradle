@@ -96,7 +96,7 @@ task publishModrinth (type: TaskModrinthUpload){
     versionNumber = project.version
     versionName = 'antighost'
     releaseType = 'release'
-    uploadFile = jar // This is the java jar task
+    uploadFile = remapJar // This is the java jar task
     addGameVersion("${Versions['minecraft_version']}")
     addLoader('fabric')
 }
