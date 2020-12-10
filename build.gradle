@@ -12,6 +12,7 @@ buildscript {
 
 plugins {
 	id 'fabric-loom' version '0.4-SNAPSHOT'
+	id "com.modrinth.minotaur" version "1.1.0"
 }
 
 apply plugin: 'de.guntram.mcmod.crowdin-translate'
@@ -84,4 +85,18 @@ jar {
 
 build {
         dependsOn downloadTranslations
+}
+
+import com.modrinth.minotaur.TaskModrinthUpload
+
+task publishModrinth (type: TaskModrinthUpload){
+
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = 'Jw3Wx1KR'
+    versionNumber = project.version
+    versionName = 'antighost'
+    releaseType = 'release'
+    uploadFile = jar // This is the java jar task
+    addGameVersion("${Versions['minecraft_version']}")
+    addLoader('fabric')
 }
