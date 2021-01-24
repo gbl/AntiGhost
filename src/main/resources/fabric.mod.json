@@ -7,6 +7,11 @@
         "client": [ "de.guntram.mcmod.antighost.AntiGhost" ],
         "cotton-client-commands": ["de.guntram.mcmod.antighost.AntiGhost"]
     },
+    
+    "mixins": [
+    "antighost.mixins.json"
+    ],
+    
     "custom": {
         "modupdater": {
             "strategy": "json",
