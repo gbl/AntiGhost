@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "de.",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "AbstractBlockAccessor",
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
