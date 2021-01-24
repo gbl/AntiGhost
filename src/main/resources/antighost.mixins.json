@@ -1,9 +1,9 @@
 {
   "required": true,
-  "package": "de.",
+  "package": "de.guntram.mcmod.antighost",
   "compatibilityLevel": "JAVA_8",
   "client": [
-    "AbstractBlockAccessor",
+    "AntiGhostBlockMixin",
   ],
   "injectors": {
     "defaultRequire": 1
