@@ -4,8 +4,7 @@
     "version": "${version}",
     "environment": "client",
     "entrypoints": {
-        "client": [ "de.guntram.mcmod.antighost.AntiGhost" ],
-        "cotton-client-commands": ["de.guntram.mcmod.antighost.AntiGhost"]
+        "client": [ "de.guntram.mcmod.antighost.AntiGhost" ]
     },
     "custom": {
         "modupdater": {
