@@ -1,11 +1,8 @@
 package de.guntram.mcmod.antighost;
 
-import com.mojang.brigadier.CommandDispatcher;
 import de.guntram.mcmod.crowdintranslate.CrowdinTranslate;
-import static io.github.cottonmc.clientcommands.ArgumentBuilders.literal;
-import io.github.cottonmc.clientcommands.ClientCommandPlugin;
-import io.github.cottonmc.clientcommands.CottonClientCommandSource;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
@@ -18,7 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_G;
 
-public class AntiGhost implements ClientModInitializer, ClientCommandPlugin
+public class AntiGhost implements ClientModInitializer
 {
     static final String MODID="antighost";
     static KeyBinding requestBlocks;
@@ -31,16 +28,11 @@ public class AntiGhost implements ClientModInitializer, ClientCommandPlugin
         CrowdinTranslate.downloadTranslations(MODID);
         KeyBindingHelper.registerKeyBinding(requestBlocks);
         ClientTickEvents.END_CLIENT_TICK.register(e->keyPressed());
-    }
-    
-    
-    @Override
-    public void registerCommands(CommandDispatcher<CottonClientCommandSource> cd) {
-        cd.register(
-            literal("ghost").executes(c->{
-                this.execute();
-                return 1;
-            })
+        ClientCommandManager.DISPATCHER.register(
+                ClientCommandManager.literal("ghost").executes(c -> {
+                    this.execute();
+                    return 1;
+                })
         );
     }
 

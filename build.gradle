@@ -11,7 +11,7 @@ buildscript {
 }
 
 plugins {
-	id 'fabric-loom' version '0.5-SNAPSHOT'
+	id 'fabric-loom' version '0.6-SNAPSHOT'
 	id "com.modrinth.minotaur" version "1.1.0"
 	id "com.matthewprenger.cursegradle" version "1.4.0"
 }
@@ -31,7 +31,10 @@ repositories {
 	maven {
         name = 'CottonMC'
 	    url = 'http://server.bbkr.space:8081/artifactory/libs-release'
-	}    
+	}
+    maven {
+        url "https://jitpack.io"
+    }
 }
 
 sourceCompatibility = 1.8
@@ -46,7 +49,7 @@ ext.projectVersion = "1.1.3"
 version = "${Versions['minecraft_version']}-fabric${Versions['fabric_versiononly']}-${project.projectVersion}"
 
 minecraft {
-    refmapName = "AntiGhost-refmap.json";
+    refmapName = "AntiGhost-refmap.json"
 }
 
 processResources {
@@ -66,8 +69,6 @@ dependencies {
     mappings   "net.fabricmc:yarn:${Versions['yarn_mappings']}:v2"
     modImplementation "net.fabricmc:fabric-loader:${Versions['loader_version']}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${Versions['fabric_version']}"
-    modImplementation "io.github.cottonmc:cotton-client-commands:${Versions['ccc_version']}"
-    include    "io.github.cottonmc:cotton-client-commands:${Versions['ccc_version']}"
     modImplementation "de.guntram.mcmod:crowdin-translate:1.2"
     include "de.guntram.mcmod:crowdin-translate:1.2"
 }
