@@ -6,6 +6,11 @@
     "entrypoints": {
         "client": [ "de.guntram.mcmod.antighost.AntiGhost" ]
     },
+    
+    "mixins": [
+    "antighost.mixins.json"
+    ],
+    
     "custom": {
         "modupdater": {
             "strategy": "json",
