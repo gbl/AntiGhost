@@ -40,7 +40,7 @@ public class AntiGhost implements ClientModInitializer
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         if (requestBlocks.wasPressed()) {
             this.execute();
-            player.sendMessage(new TranslatableText("msg.request"), false);
+            player.sendMessage(new TranslatableText("msg.request"), true);
         }
     }
     
