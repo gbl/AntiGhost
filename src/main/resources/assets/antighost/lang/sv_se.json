@@ -1,5 +1,5 @@
 {
-    "key.categories.antighost": "AntiGhost",
-    "key.antighost.reveal": "Reveal ghost blocks",
-    "msg.request": "requesting resend of blocks around you"
+    "key.categories.antighost": "AntiSpöke",
+    "key.antighost.reveal": "Visa spök blocks",
+    "msg.request": "begär att block ska skickas om omkring dig"
 }
