@@ -1,5 +1,5 @@
 {
     "key.categories.antighost": "AntiGhost",
-    "key.antighost.reveal": "Reveal ghost blocks",
-    "msg.request": "requesting resend of blocks around you"
+    "key.antighost.reveal": "랙 걸린 블럭 보이기",
+    "msg.request": "주변 블럭을 다시 보내도록 요청하고 있습니다."
 }
