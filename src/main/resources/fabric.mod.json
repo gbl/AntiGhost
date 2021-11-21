@@ -16,8 +16,7 @@
       "fabric": "*"
     },
     "recommends": {
-        "modmenu" : "*",
-        "modupdater": ">=1.1.7"
+        "modmenu" : "*"
     },
     "name": "AntiGhost",
     "description": "Mod that helps you get rid of ghost blocks around yourself. Use /ghost or type the g key (can be rebound) to request block-resends.",
