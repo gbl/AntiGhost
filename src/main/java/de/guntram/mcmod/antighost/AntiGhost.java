@@ -2,7 +2,7 @@ package de.guntram.mcmod.antighost;
 
 import de.guntram.mcmod.crowdintranslate.CrowdinTranslate;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
@@ -10,7 +10,7 @@ import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_G;
@@ -40,7 +40,7 @@ public class AntiGhost implements ClientModInitializer
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         if (requestBlocks.wasPressed()) {
             this.execute();
-            player.sendMessage(new TranslatableText("msg.request"), false);
+            player.sendMessage(Text.translatable("msg.request"), false);
         }
     }
     
