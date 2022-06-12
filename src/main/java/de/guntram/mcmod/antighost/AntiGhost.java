@@ -6,7 +6,7 @@ import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.client.ClientRegistry;
@@ -42,7 +42,7 @@ public class AntiGhost
         LocalPlayer player = Minecraft.getInstance().player;
         if (showGui.consumeClick()) {
             this.execute(null, player, null);
-            player.displayClientMessage(new TranslatableComponent("msg.request"), true);
+            player.displayClientMessage(Component.translatable("msg.request"), true);
         }
     }
     

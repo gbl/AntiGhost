@@ -27,7 +27,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.18.1-forge39.0.9-1.1.2'
+version = '1.19-forge41.0.17-1.1.2'
 group = 'de.guntram.mcmod.antighost' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'antighost'
 
@@ -40,7 +40,7 @@ minecraft {
     // stable_#            Stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'official', version: '1.18.1'
+    mappings channel: 'official', version: '1.19'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
     
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -50,7 +50,7 @@ dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.18.1-39.0.9'
+    minecraft 'net.minecraftforge:forge:1.19-41.0.17'
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
@@ -119,7 +119,7 @@ task publishModrinth (type: TaskModrinthUpload){
     versionName = 'antighost'
     releaseType = 'release'
     uploadFile = jar // This is the java jar task
-    addGameVersion('1.18.1')
+    addGameVersion('1.19')
     addLoader('forge')
 }
 
@@ -128,7 +128,7 @@ curseforge {
     project {
         id = '273279'
         releaseType = 'release'
-        addGameVersion("1.18.1")
+        addGameVersion("1.19")
         addGameVersion("Java 17")
         addGameVersion("Forge")
         mainArtifact(jar)
