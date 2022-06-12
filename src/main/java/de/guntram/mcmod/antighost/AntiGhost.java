@@ -3,6 +3,7 @@ package de.guntram.mcmod.antighost;
 import de.guntram.mcmod.crowdintranslate.CrowdinTranslate;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
@@ -28,12 +29,14 @@ public class AntiGhost implements ClientModInitializer
         CrowdinTranslate.downloadTranslations(MODID);
         KeyBindingHelper.registerKeyBinding(requestBlocks);
         ClientTickEvents.END_CLIENT_TICK.register(e->keyPressed());
-        ClientCommandManager.DISPATCHER.register(
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
+            dispatcher.register(
                 ClientCommandManager.literal("ghost").executes(c -> {
                     this.execute();
-                    return 1;
+                    return 0;
                 })
-        );
+            );
+        });
     }
 
     public void keyPressed() {
