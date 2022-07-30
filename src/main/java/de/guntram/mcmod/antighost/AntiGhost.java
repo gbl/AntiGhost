@@ -9,7 +9,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
 import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.ClientChatEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -32,13 +31,11 @@ public class AntiGhost
     public void init(FMLCommonSetupEvent event)
     {
         MinecraftForge.EVENT_BUS.register(this);
-        // ClientCommandHandler.instance.registerCommand(this); How the F in forge?
-        ClientRegistry.registerKeyBinding(showGui = 
-                new KeyMapping("key.reveal", 'G', "key.categories.antighost"));
+        showGui = new KeyMapping("key.reveal", 'G', "key.categories.antighost");
     }
 
     @SubscribeEvent
-    public void keyPressed(final InputEvent.KeyInputEvent e) {
+    public void keyPressed(final InputEvent.Key e) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (showGui.consumeClick()) {
             this.execute(null, player, null);
