@@ -1,71 +1,88 @@
 package de.guntram.mcmod.antighost;
 
-import net.minecraft.client.KeyMapping;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
-import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.client.event.ClientChatEvent;
-import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterClientCommandsEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.common.Mod;
 
-public class AntiGhost 
-{
-    static final String MODID="antighost";
-    static final String MODNAME="AntiGhost";
-    static KeyMapping showGui;
-    
-    public AntiGhost() {
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        bus.addListener(this::init);        
-    }
-    
-    public void init(FMLCommonSetupEvent event)
-    {
-        MinecraftForge.EVENT_BUS.register(this);
-        showGui = new KeyMapping("key.reveal", 'G', "key.categories.antighost");
-    }
+import java.time.Instant;
 
+@Mod.EventBusSubscriber(modid = AntiGhostMain.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+public class AntiGhost {
+    // The x, y, and z range to refresh blocks at
+    private static final int REFRESH_RANGE = 4;
+    // The delay between executes
+    private static final int DELAY = 1;
+    // Instant next execute is allowed
+    private static Instant NEXT_AVAILABLE = Instant.now();
+
+    // Register the /ghost command
     @SubscribeEvent
-    public void keyPressed(final InputEvent.Key e) {
-        LocalPlayer player = Minecraft.getInstance().player;
-        if (showGui.consumeClick()) {
-            this.execute(null, player, null);
-            player.displayClientMessage(Component.translatable("msg.request"), true);
+    private static void registerCommands(RegisterClientCommandsEvent e) {
+        e.getDispatcher().register(Commands.literal("ghost")
+                .executes(c -> {
+                    refreshBlocks();
+                    return 0;
+                })
+        );
+    }
+
+    // Event for checking key press in-game
+    @SubscribeEvent
+    private static void onClientTick(ClientTickEvent e) {
+        // Only check on the second tick event
+        if (e.phase == TickEvent.Phase.END) {
+            // Consume all the key presses
+            while (AntiGhostMain.REFRESH_BLOCKS_MAPPING.get().consumeClick()) {
+                refreshBlocks();
+            }
         }
     }
-    
-    @SubscribeEvent
-    public void chatEvent(final ClientChatEvent e) {
-        if (e.getOriginalMessage().equals("/ghost")) {
-            this.execute(null, Minecraft.getInstance().player, null);
-            e.setCanceled(true);
-        }
-    }
 
-    public void execute(MinecraftServer server, LocalPlayer player, String[] args) {
-        Minecraft mc=Minecraft.getInstance();
-        ClientPacketListener conn = mc.getConnection();
-        if (conn==null)
+    // Refreshes all blocks within range of the player
+    private static void refreshBlocks() {
+        // Short-circuit if the connection is null
+        if (AntiGhostMain.conn == null)
             return;
-        BlockPos pos=player.blockPosition();
-        for (int dx=-4; dx<=4; dx++)
-            for (int dy=-4; dy<=4; dy++)
-                for (int dz=-4; dz<=4; dz++) {
-                    ServerboundPlayerActionPacket packet=new ServerboundPlayerActionPacket(
-                            ServerboundPlayerActionPacket.Action.ABORT_DESTROY_BLOCK, 
-                            new BlockPos(pos.getX()+dx, pos.getY()+dy, pos.getZ()+dz),
-                            Direction.UP       // with ABORT_DESTROY_BLOCK, this value is unused
-                    );
-                    conn.send(packet);
-                }
+
+        // Throttle execution
+        Instant now = Instant.now();
+        if (now.isBefore(NEXT_AVAILABLE))
+            return;
+        NEXT_AVAILABLE = now.plusSeconds(DELAY);
+
+        // Refreshes each block in range
+        for (BlockPos pos : getBlocksToRefresh()) {
+            refreshBlock(pos);
+        }
+
+        // Send confirmation message to the player
+        AntiGhostMain.player.displayClientMessage(Component.translatable("msg.request"), true);
+    }
+
+    // Refreshes the block at the given position
+    private static void refreshBlock(BlockPos pos) {
+        ServerboundPlayerActionPacket packet = new ServerboundPlayerActionPacket(
+                ServerboundPlayerActionPacket.Action.ABORT_DESTROY_BLOCK,
+                pos,
+                Direction.UP       // with ABORT_DESTROY_BLOCK, this value is unused
+        );
+        AntiGhostMain.conn.send(packet);
+    }
+
+    // Gets the positions of all the blocks to refresh
+    private static Iterable<BlockPos> getBlocksToRefresh() {
+        BlockPos playerPos = AntiGhostMain.player.blockPosition();
+        return BlockPos.betweenClosed(
+                playerPos.offset(REFRESH_RANGE, REFRESH_RANGE, REFRESH_RANGE),
+                playerPos.offset(-REFRESH_RANGE, -REFRESH_RANGE, -REFRESH_RANGE)
+        );
     }
 }
