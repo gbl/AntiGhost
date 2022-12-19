@@ -11,6 +11,7 @@ gradlew
 output/
 bin/
 libs/
+.architectury-transformer/
 
 .classpath
 .project
