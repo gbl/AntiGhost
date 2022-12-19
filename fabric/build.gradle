@@ -52,7 +52,7 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${Versions['loader_version']}"
     modApi "net.fabricmc.fabric-api:fabric-api:${Versions['fabric_version']}"
     // Remove the next line if you don't want to depend on the API
-    // modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
+    // modApi "dev.architectury:architectury-fabric:${Versions[architectury_version]}"
     modImplementation "de.guntram.mcmod:crowdin-translate:${Versions['crowdintranslate_version']}"
     include "de.guntram.mcmod:crowdin-translate:${Versions['crowdintranslate_version']}"
 
