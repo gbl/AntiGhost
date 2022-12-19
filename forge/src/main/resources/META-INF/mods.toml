@@ -53,9 +53,9 @@ versionRange = "[1.19.2,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.antighost]]
-modId = "architectury"
-mandatory = true
-versionRange = "[6.2.43,)"
-ordering = "AFTER"
-side = "BOTH"
+#[[dependencies.antighost]]
+#modId = "architectury"
+#mandatory = true
+#versionRange = "[6.2.43,)"
+#ordering = "AFTER"
+#side = "BOTH"
