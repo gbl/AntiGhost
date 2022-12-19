@@ -1,12 +1,12 @@
 package de.guntram.mcmod.antighost.forge;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
+import net.minecraft.text.Text;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 
 import java.time.Instant;
 
@@ -20,9 +20,9 @@ public class BlockRefresher {
 
     // Refreshes all blocks within range of the player
     public static void refreshBlocks() {
-        Minecraft mc = Minecraft.getInstance();
-        ClientPacketListener conn = mc.getConnection();
-        LocalPlayer player = mc.player;
+        MinecraftClient mc = MinecraftClient.getInstance();
+        ClientPlayNetworkHandler conn = mc.getNetworkHandler();
+        ClientPlayerEntity player = mc.player;
 
         // Short-circuit if the connection or player is null
         if (conn == null || player == null)
@@ -30,34 +30,34 @@ public class BlockRefresher {
 
         // Throttle execution
         if (isOnCooldown()) {
-            player.displayClientMessage(Component.translatable("msg.onCooldown", DELAY), true);
+            player.sendMessage(Text.translatable("msg.onCooldown", DELAY), true);
             return;
         }
 
         // Refreshes each block in range
-        for (BlockPos pos : getBlocksToRefresh(player.blockPosition())) {
+        for (BlockPos pos : getBlocksToRefresh(player.getBlockPos())) {
             refreshBlock(pos, conn);
         }
 
         // Send confirmation message to the player
-        player.displayClientMessage(Component.translatable("msg.request"), true);
+        player.sendMessage(Text.translatable("msg.request"), true);
     }
 
     // Refreshes the block at the given position
-    private static void refreshBlock(BlockPos pos, ClientPacketListener conn) {
-        ServerboundPlayerActionPacket packet = new ServerboundPlayerActionPacket(
-                ServerboundPlayerActionPacket.Action.ABORT_DESTROY_BLOCK,
+    private static void refreshBlock(BlockPos pos, ClientPlayNetworkHandler conn) {
+        PlayerActionC2SPacket packet = new PlayerActionC2SPacket(
+                PlayerActionC2SPacket.Action.ABORT_DESTROY_BLOCK,
                 pos,
                 Direction.UP       // with ABORT_DESTROY_BLOCK, this value is unused
         );
-        conn.send(packet);
+        conn.sendPacket(packet);
     }
 
     // Gets the positions of all the blocks to refresh
     private static Iterable<BlockPos> getBlocksToRefresh(BlockPos centerPos) {
-        return BlockPos.betweenClosed(
-                centerPos.offset(REFRESH_RANGE, REFRESH_RANGE, REFRESH_RANGE),
-                centerPos.offset(-REFRESH_RANGE, -REFRESH_RANGE, -REFRESH_RANGE)
+        return BlockPos.iterate(
+                centerPos.add(REFRESH_RANGE, REFRESH_RANGE, REFRESH_RANGE),
+                centerPos.add(-REFRESH_RANGE, -REFRESH_RANGE, -REFRESH_RANGE)
         );
     }
 

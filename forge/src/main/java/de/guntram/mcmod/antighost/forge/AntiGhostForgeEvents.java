@@ -1,6 +1,7 @@
 package de.guntram.mcmod.antighost.forge;
 
-import net.minecraft.commands.Commands;
+import static net.minecraft.server.command.CommandManager.literal;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.event.TickEvent;
@@ -16,7 +17,7 @@ public class AntiGhostForgeEvents {
     // Register the /ghost command
     @SubscribeEvent
     public static void registerCommands(RegisterClientCommandsEvent e) {
-        e.getDispatcher().register(Commands.literal("ghost")
+        e.getDispatcher().register(literal("ghost")
                 .executes(c -> {
                     BlockRefresher.refreshBlocks();
                     return 0;
@@ -30,7 +31,7 @@ public class AntiGhostForgeEvents {
         // Only check on the second tick event
         if (e.phase == TickEvent.Phase.END) {
             // Consume all the key presses
-            while (AntiGhostModEvents.REFRESH_BLOCKS_MAPPING.get().consumeClick()) {
+            while (AntiGhostModEvents.REFRESH_BLOCKS_MAPPING.get().wasPressed()) {
                 BlockRefresher.refreshBlocks();
             }
         }

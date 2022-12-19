@@ -1,7 +1,7 @@
 package de.guntram.mcmod.antighost.forge;
 
-import com.mojang.blaze3d.platform.InputConstants;
-import net.minecraft.client.KeyMapping;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.util.InputUtil;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
@@ -17,11 +17,11 @@ import static de.guntram.mcmod.antighost.Constants.*;
 public class AntiGhostModEvents {
     // Lazy initialize the key mapping to refresh blocks
     // Only conflicts in-game
-    public static final Lazy<KeyMapping> REFRESH_BLOCKS_MAPPING = Lazy.of(
-            () -> new KeyMapping(
+    public static final Lazy<KeyBinding> REFRESH_BLOCKS_MAPPING = Lazy.of(
+            () -> new KeyBinding(
                     REFRESH_DESCRIPTION_KEY,
                     KeyConflictContext.IN_GAME,
-                    InputConstants.Type.KEYSYM,
+                    InputUtil.Type.KEYSYM,
                     GLFW.GLFW_KEY_G,
                     CONTROLS_CATEGORY_KEY
             )
