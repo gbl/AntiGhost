@@ -1,6 +1,5 @@
 {
-  "key.categories.antighost": "AntiGhost",
-  "key.antighost.reveal": "Reveal ghost blocks",
-  "msg.request": "Requesting resend of blocks around you",
-  "msg.onCooldown": "Must wait %d seconds between uses"
+"key.categories.antighost": "AntiGhost",
+"key.antighost.reveal": "Reveal ghost blocks",
+"msg.request": "requesting resend of blocks around you"
 }

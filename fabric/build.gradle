@@ -1,5 +1,33 @@
+buildscript {
+    dependencies {
+        classpath 'de.guntram.mcmod:crowdin-translate:1.4+1.19-pre2'
+    }
+    repositories {
+        maven {
+            name = 'CrowdinTranslate source'
+            url = "https://minecraft.guntram.de/maven/"
+        }
+    }
+}
+
 plugins {
+    id "com.modrinth.minotaur" version "2.+"
+    id "com.matthewprenger.cursegradle" version "1.4.0"
     id "com.github.johnrengelman.shadow" version "7.1.2"
+}
+
+apply plugin: 'de.guntram.mcmod.crowdin-translate'
+crowdintranslate.crowdinProjectName = rootProject.archives_base_name
+crowdintranslate.minecraftProjectName = rootProject.archives_base_name
+crowdintranslate.verbose = false
+
+repositories {
+    maven {
+        url = "https://minecraft.guntram.de/maven/"
+    }
+    maven {
+        url = "https://maven.terraformersmc.com/releases/com/terraformersmc/modmenu/"
+    }
 }
 
 architectury {
@@ -9,6 +37,7 @@ architectury {
 
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
+    mixin.defaultRefmapName = "AntiGhost-refmap.json"
 }
 
 configurations {
@@ -20,10 +49,12 @@ configurations {
 }
 
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}+${rootProject.minecraft_version}"
+    modImplementation "net.fabricmc:fabric-loader:${Versions['loader_version']}"
+    modApi "net.fabricmc.fabric-api:fabric-api:${Versions['fabric_version']}"
     // Remove the next line if you don't want to depend on the API
-    modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
+    // modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
+    modImplementation "de.guntram.mcmod:crowdin-translate:${Versions['crowdintranslate_version']}"
+    include "de.guntram.mcmod:crowdin-translate:${Versions['crowdintranslate_version']}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
@@ -48,11 +79,12 @@ remapJar {
     injectAccessWidener = true
     input.set shadowJar.archiveFile
     dependsOn shadowJar
-    archiveBaseName.set "${rootProject.archives_base_name}-${rootProject.minecraft_version}-fabric${rootProject.fabric_api_version}"
+    archiveBaseName.set "${rootProject.archives_base_name}-${Versions["minecraft_version"]}-fabric${Versions["fabric_versiononly"]}"
     classifier null
 }
 
 jar {
+    from "LICENSE"
     classifier "dev"
 }
 
@@ -68,16 +100,29 @@ components.java {
     }
 }
 
-publishing {
-    publications {
-        mavenFabric(MavenPublication) {
-            artifactId = rootProject.archives_base_name + "-" + project.name
-            from components.java
-        }
-    }
+build {
+    dependsOn downloadTranslations
+}
 
-    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-    repositories {
-        // Add repositories to publish to here.
+import com.modrinth.minotaur.TaskModrinthUpload
+
+modrinth {
+    projectId = rootProject.archives_base_name
+    versionName = rootProject.archives_base_name
+    uploadFile = remapJar
+}
+
+curseforge {
+    apiKey = System.getenv("CURSEFORGE_TOKEN") ?: "0"
+    project {
+        id = '273279'
+        releaseType = 'release'
+        addGameVersion("${Versions['minecraft_version']}")
+        addGameVersion("Java " + targetCompatibility)
+        addGameVersion("Fabric")
+        mainArtifact(remapJar)
+    }
+    options {
+        forgeGradleIntegration = false
     }
 }

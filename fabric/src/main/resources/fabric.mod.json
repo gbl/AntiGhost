@@ -1,27 +1,30 @@
 {
-  "schemaVersion": 1,
-  "id": "examplemod",
-  "version": "${version}",
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
-  "authors": [
-    "Me!"
-  ],
-  "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
-  },
-  "license": "Insert License Here",
-  "icon": "assets/examplemod/icon.png",
-  "environment": "*",
-  "entrypoints": {
-    "main": [
-      "net.examplemod.fabric.ExampleModFabric"
-    ]
-  },
-  "depends": {
-    "fabric": "*",
-    "minecraft": ">=1.19.2",
-    "architectury": ">=6.2.43"
-  }
+    "schemaVersion": 1,
+    "id": "antighost",
+    "version": "${version}",
+    "environment": "client",
+    "entrypoints": {
+        "client": [ "de.guntram.mcmod.antighost.fabric.AntiGhost" ]
+    },
+    "custom": {
+        "modupdater": {
+            "strategy": "json",
+            "url": "https://raw.githubusercontent.com/gbl/ModVersionInfo/master/AntiGhost.json"
+        }
+    },
+    "depends": {
+      "fabric": "*"
+    },
+    "recommends": {
+        "modmenu" : "*"
+    },
+    "name": "AntiGhost",
+    "description": "Mod that helps you get rid of ghost blocks around yourself. Use /ghost or type the g key (can be rebound) to request block-resends.",
+    "icon": "../../../../common/src/main/resources/icon.png",
+    "authors": [ "Giselbaer" ],
+    "contact": {
+        "homepage": "https://www.curseforge.com/minecraft/mc-mods/antighost",
+        "sources": "https://github.com/gbl/AntiGhost",
+        "issues": "https://github.com/gbl/AntiGhost/issues"
+    }
 }
