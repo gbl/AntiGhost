@@ -8,8 +8,10 @@ import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import static de.guntram.mcmod.antighost.AntiGhost.MOD_ID;
+
 // Subscribes to forge events
-@Mod.EventBusSubscriber(modid = AntiGhost.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class AntiGhostForgeEvents {
     // Register the /ghost command
     @SubscribeEvent
@@ -28,7 +30,7 @@ public class AntiGhostForgeEvents {
         // Only check on the second tick event
         if (e.phase == TickEvent.Phase.END) {
             // Consume all the key presses
-            while (AntiGhost.REFRESH_BLOCKS_MAPPING.get().consumeClick()) {
+            while (AntiGhostModEvents.REFRESH_BLOCKS_MAPPING.get().consumeClick()) {
                 BlockRefresher.refreshBlocks();
             }
         }
