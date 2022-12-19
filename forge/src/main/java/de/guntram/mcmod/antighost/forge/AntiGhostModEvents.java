@@ -1,4 +1,4 @@
-package de.guntram.mcmod.antighost;
+package de.guntram.mcmod.antighost.forge;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
@@ -10,7 +10,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.glfw.GLFW;
 
-import static de.guntram.mcmod.antighost.AntiGhost.MOD_ID;
+import static de.guntram.mcmod.antighost.Constants.*;
 
 // Subscribes to mod lifecycle events
 @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -19,11 +19,11 @@ public class AntiGhostModEvents {
     // Only conflicts in-game
     public static final Lazy<KeyMapping> REFRESH_BLOCKS_MAPPING = Lazy.of(
             () -> new KeyMapping(
-                    "key." + MOD_ID + ".reveal",
+                    REFRESH_DESCRIPTION_KEY,
                     KeyConflictContext.IN_GAME,
                     InputConstants.Type.KEYSYM,
                     GLFW.GLFW_KEY_G,
-                    "key.categories." + MOD_ID
+                    CONTROLS_CATEGORY_KEY
             )
     );
 

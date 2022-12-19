@@ -1,14 +1,13 @@
-package de.guntram.mcmod.antighost;
+package de.guntram.mcmod.antighost.forge;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 
-import static de.guntram.mcmod.antighost.AntiGhost.MOD_ID;
+import static de.guntram.mcmod.antighost.Constants.MOD_ID;
+import static de.guntram.mcmod.antighost.Constants.MOD_NAME;
 
 @Mod(MOD_ID)
 public class AntiGhost {
-    public static final String MOD_ID = "antighost";
-    public static final String MOD_NAME = "AntiGhost";
 
     public AntiGhost() {
         if (FMLEnvironment.dist.isDedicatedServer()) {

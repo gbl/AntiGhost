@@ -1,4 +1,4 @@
-package de.guntram.mcmod.antighost;
+package de.guntram.mcmod.antighost.forge;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
@@ -10,12 +10,11 @@ import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
 
 import java.time.Instant;
 
+import static de.guntram.mcmod.antighost.Constants.DELAY;
+import static de.guntram.mcmod.antighost.Constants.REFRESH_RANGE;
+
 // Holds logic for refreshing blocks
 public class BlockRefresher {
-    // The x, y, and z range to refresh blocks at
-    private static final int REFRESH_RANGE = 4;
-    // The delay between executes
-    private static final int DELAY = 10;
     // Instant next execute is allowed
     private static Instant NEXT_AVAILABLE = Instant.now();
 

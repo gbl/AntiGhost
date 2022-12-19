@@ -1,4 +1,4 @@
-package de.guntram.mcmod.antighost;
+package de.guntram.mcmod.antighost.forge;
 
 import net.minecraft.commands.Commands;
 import net.minecraftforge.api.distmarker.Dist;
@@ -8,7 +8,7 @@ import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import static de.guntram.mcmod.antighost.AntiGhost.MOD_ID;
+import static de.guntram.mcmod.antighost.Constants.MOD_ID;
 
 // Subscribes to forge events
 @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)

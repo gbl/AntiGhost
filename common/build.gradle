@@ -1,0 +1,11 @@
+plugins {
+    id 'java'
+}
+
+version = '1.19.2-common-1.2.0.0'
+group = 'de.guntram.mcmod.antighost'
+archivesBaseName = 'antighost'
+
+dependencies {
+    minecraft "com.mojang:minecraft:1.19.2"
+}
