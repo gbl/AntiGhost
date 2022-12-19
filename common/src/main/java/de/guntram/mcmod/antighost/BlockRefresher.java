@@ -1,4 +1,4 @@
-package de.guntram.mcmod.antighost.forge;
+package de.guntram.mcmod.antighost;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
@@ -10,7 +10,7 @@ import net.minecraft.util.math.Direction;
 
 import java.time.Instant;
 
-import static de.guntram.mcmod.antighost.Constants.DELAY;
+import static de.guntram.mcmod.antighost.Constants.REFRESH_DELAY;
 import static de.guntram.mcmod.antighost.Constants.REFRESH_RANGE;
 
 // Holds logic for refreshing blocks
@@ -30,7 +30,7 @@ public class BlockRefresher {
 
         // Throttle execution
         if (isOnCooldown()) {
-            player.sendMessage(Text.translatable("msg.onCooldown", DELAY), true);
+            player.sendMessage(Text.translatable("msg.onCooldown", REFRESH_DELAY), true);
             return;
         }
 
@@ -67,7 +67,7 @@ public class BlockRefresher {
         if (now.isBefore(NEXT_AVAILABLE)) {
             return true;
         }
-        NEXT_AVAILABLE = now.plusSeconds(DELAY);
+        NEXT_AVAILABLE = now.plusSeconds(REFRESH_DELAY);
         return false;
     }
 }
