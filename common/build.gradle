@@ -3,10 +3,11 @@ plugins {
     id "de.guntram.mcmod.crowdin-translate" version "1.4+1.19.3"
 }
 
-apply plugin: 'de.guntram.mcmod.crowdin-translate'
-crowdintranslate.crowdinProjectName = rootProject.archives_base_name
-crowdintranslate.minecraftProjectName = rootProject.archives_base_name
-crowdintranslate.verbose = false
+crowdintranslate {
+    crowdinProjectName = rootProject.archives_base_name
+    minecraftProjectName = rootProject.archives_base_name
+    verbose = false
+}
 
 architectury {
     common(rootProject.enabled_platforms.split(","))
