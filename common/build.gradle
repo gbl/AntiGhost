@@ -1,17 +1,6 @@
-buildscript {
-    dependencies {
-        classpath 'de.guntram.mcmod:crowdin-translate:1.4+1.19.3'
-    }
-    repositories {
-        maven {
-            name = 'CrowdinTranslate source'
-            url = "https://minecraft.guntram.de/maven/"
-        }
-    }
-}
-
 plugins {
     id "dev.architectury.loom" version "0.12.0-SNAPSHOT" apply false
+    id "de.guntram.mcmod.crowdin-translate" version "1.4+1.19.3"
 }
 
 apply plugin: 'de.guntram.mcmod.crowdin-translate'
