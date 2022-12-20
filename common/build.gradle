@@ -1,3 +1,24 @@
+buildscript {
+    dependencies {
+        classpath 'de.guntram.mcmod:crowdin-translate:1.4+1.19.3'
+    }
+    repositories {
+        maven {
+            name = 'CrowdinTranslate source'
+            url = "https://minecraft.guntram.de/maven/"
+        }
+    }
+}
+
+plugins {
+    id "dev.architectury.loom" version "0.12.0-SNAPSHOT" apply false
+}
+
+apply plugin: 'de.guntram.mcmod.crowdin-translate'
+crowdintranslate.crowdinProjectName = rootProject.archives_base_name
+crowdintranslate.minecraftProjectName = rootProject.archives_base_name
+crowdintranslate.verbose = false
+
 architectury {
     common(rootProject.enabled_platforms.split(","))
 }
@@ -6,12 +27,30 @@ loom {
     accessWidenerPath = file("src/main/resources/antighost.accesswidener")
 }
 
+sourceSets {
+    main {
+        resources {
+            srcDir "../src/main/resources"
+        }
+    }
+}
+
+repositories {
+    maven {
+        url = "https://minecraft.guntram.de/maven/"
+    }
+}
+
 dependencies {
     // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
     // Do NOT use other classes from fabric loader
     modImplementation "net.fabricmc:fabric-loader:${Versions["loader_version"]}"
     // Remove the next line if you don't want to depend on the API
     // modApi "dev.architectury:architectury:${Versions[architectury_version]}"
+}
+
+build {
+    dependsOn downloadTranslations
 }
 
 publishing {

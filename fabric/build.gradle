@@ -1,25 +1,8 @@
-buildscript {
-    dependencies {
-        classpath 'de.guntram.mcmod:crowdin-translate:1.4+1.19-pre2'
-    }
-    repositories {
-        maven {
-            name = 'CrowdinTranslate source'
-            url = "https://minecraft.guntram.de/maven/"
-        }
-    }
-}
-
 plugins {
     id "com.modrinth.minotaur" version "2.+"
     id "com.matthewprenger.cursegradle" version "1.4.0"
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
-
-apply plugin: 'de.guntram.mcmod.crowdin-translate'
-crowdintranslate.crowdinProjectName = rootProject.archives_base_name
-crowdintranslate.minecraftProjectName = rootProject.archives_base_name
-crowdintranslate.verbose = false
 
 repositories {
     maven {
@@ -53,8 +36,8 @@ dependencies {
     modApi "net.fabricmc.fabric-api:fabric-api:${Versions['fabric_version']}"
     // Remove the next line if you don't want to depend on the API
     // modApi "dev.architectury:architectury-fabric:${Versions[architectury_version]}"
-    modImplementation "de.guntram.mcmod:crowdin-translate:${Versions['crowdintranslate_version']}"
-    include "de.guntram.mcmod:crowdin-translate:${Versions['crowdintranslate_version']}"
+    modImplementation "de.guntram.mcmod:crowdin-translate:${Versions["crowdintranslate_version"]}"
+    include "de.guntram.mcmod:crowdin-translate:${Versions["crowdintranslate_version"]}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
@@ -98,10 +81,6 @@ components.java {
     withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
         skip()
     }
-}
-
-build {
-    dependsOn downloadTranslations
 }
 
 import com.modrinth.minotaur.TaskModrinthUpload
