@@ -20,7 +20,7 @@ loom {
 sourceSets {
     main {
         resources {
-            srcDir "../src/main/resources"
+            srcDirs += "../src/main/resources"
         }
     }
 }
