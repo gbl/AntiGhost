@@ -3,6 +3,8 @@ plugins {
     id "de.guntram.mcmod.crowdin-translate" version "1.4+1.19.3"
 }
 
+version = "${Versions["minecraft_version"]}-common-${rootProject.mod_version}"
+
 crowdintranslate {
     crowdinProjectName = rootProject.archives_base_name
     minecraftProjectName = rootProject.archives_base_name

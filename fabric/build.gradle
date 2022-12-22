@@ -4,6 +4,8 @@ plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
+version = "${Versions["minecraft_version"]}-fabric${Versions["fabric_versiononly"]}-${rootProject.mod_version}"
+
 repositories {
     maven {
         url = "https://minecraft.guntram.de/maven/"
@@ -62,7 +64,6 @@ remapJar {
     injectAccessWidener = true
     input.set shadowJar.archiveFile
     dependsOn shadowJar
-    archiveBaseName.set "${rootProject.archives_base_name}-${Versions["minecraft_version"]}-fabric${Versions["fabric_versiononly"]}"
     classifier null
 }
 
