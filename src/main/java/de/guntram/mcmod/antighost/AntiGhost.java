@@ -1,5 +1,7 @@
 package de.guntram.mcmod.antighost;
 
+import org.lwjgl.glfw.GLFW;
+
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
@@ -10,8 +12,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.client.event.ClientChatEvent;
-import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -21,41 +25,50 @@ public class AntiGhost
 {
     static final String MODID="antighost";
     static final String MODNAME="AntiGhost";
-    static KeyMapping showGui;
+    static final KeyMapping ON_REVEAL = new KeyMapping("key.antighost.reveal", GLFW.GLFW_KEY_G, "key.categories.antighost");
+    static boolean handled = false;
     
     public AntiGhost() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        bus.addListener(this::init);        
+        bus.addListener(this::init);
+        bus.addListener(this::registerBindings);
     }
     
     public void init(FMLCommonSetupEvent event)
     {
         MinecraftForge.EVENT_BUS.register(this);
-        showGui = new KeyMapping("key.reveal", 'G', "key.categories.antighost");
+    }
+
+    public void registerBindings(RegisterKeyMappingsEvent event) {
+        event.register(ON_REVEAL);
     }
 
     @SubscribeEvent
-    public void keyPressed(final InputEvent.Key e) {
-        LocalPlayer player = Minecraft.getInstance().player;
-        if (showGui.consumeClick()) {
-            this.execute(null, player, null);
-            player.displayClientMessage(Component.translatable("msg.request"), true);
+    public void onClientTick(ClientTickEvent event) {
+        if (event.phase == TickEvent.Phase.END) {
+            if (ON_REVEAL.consumeClick()) {
+                Minecraft mc = Minecraft.getInstance();
+                this.execute(null, mc.player, null);
+                mc.player.displayClientMessage(Component.translatable("msg.request"), true);
+            }
         }
-    }
-    
+    } 
+
     @SubscribeEvent
     public void chatEvent(final ClientChatEvent e) {
         if (e.getOriginalMessage().equals("/ghost")) {
-            this.execute(null, Minecraft.getInstance().player, null);
+            Minecraft mc = Minecraft.getInstance();
+            this.execute(null, mc.player, null);
             e.setCanceled(true);
         }
     }
 
     public void execute(MinecraftServer server, LocalPlayer player, String[] args) {
-        Minecraft mc=Minecraft.getInstance();
+        Minecraft mc = Minecraft.getInstance();
         ClientPacketListener conn = mc.getConnection();
         if (conn==null)
             return;
+        
         BlockPos pos=player.blockPosition();
         for (int dx=-4; dx<=4; dx++)
             for (int dy=-4; dy<=4; dy++)
