@@ -26,7 +26,6 @@ public class AntiGhost
     static final String MODID="antighost";
     static final String MODNAME="AntiGhost";
     static final KeyMapping ON_REVEAL = new KeyMapping("key.antighost.reveal", GLFW.GLFW_KEY_G, "key.categories.antighost");
-    static boolean handled = false;
     
     public AntiGhost() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
