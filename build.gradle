@@ -27,7 +27,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.19.1-forge42.0.1-1.1.2'
+version = '1.19.1-forge42.0.1-1.1.3'
 group = 'de.guntram.mcmod.antighost' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'antighost'
 
