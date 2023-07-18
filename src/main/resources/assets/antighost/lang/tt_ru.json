@@ -1,6 +1,6 @@
 {
+  "modmenu.summaryTranslation.antighost": "Сезне ялган блоклардан чыгарга ярдәм итүче мод.",
   "modmenu.descriptionTranslation.antighost": "Сезне ялган блоклардан чыгарга ярдәм итүче мод. Блоклар яңартуын сорауны җиберү өчен «/ghost» боерыгын кулланыгыз яки «g» төймәсенә (яңадан билгеләргә мөмкин) басыгыз",
-  "modmenu.descriptionTranslation.antighost": "Сезне ялган блоклардан чыгарга ярдәм итүче мод.".
   "key.categories.antighost": "AntiGhost",
   "key.antighost.reveal": "Үз тирәсендә блокларны яңарту",
   "msg.request": "§9Блоклар яңартуын сорау җиберелде."
